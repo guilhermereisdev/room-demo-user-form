@@ -9,7 +9,7 @@ data class Subscriber(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "subscriber_id")
-    val id: String,
+    val id: Int,
 
     @ColumnInfo(name = "subscriber_name")
     val name: String,
