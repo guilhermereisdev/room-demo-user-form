@@ -3,10 +3,12 @@ package com.guilhermereisdev.roomdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.guilhermereisdev.roomdemo.databinding.ActivityMainBinding
+import com.guilhermereisdev.roomdemo.db.Subscriber
 import com.guilhermereisdev.roomdemo.db.SubscriberDatabase
 import com.guilhermereisdev.roomdemo.db.SubscriberRepository
 
@@ -28,13 +30,26 @@ class MainActivity : AppCompatActivity() {
         binding.myViewModel = subscriberViewModel
         binding.lifecycleOwner = this
 
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerViewSubscriber.layoutManager = LinearLayoutManager(this)
         displaySubscribersList()
     }
 
     private fun displaySubscribersList() {
-        subscriberViewModel.subscribers.observe(this, Observer {
+        subscriberViewModel.subscribers.observe(this) {
             Log.i("MyTag", it.toString())
-        })
+            binding.recyclerViewSubscriber.adapter = MyRecyclerViewAdapter(
+                it,
+                { selectedItem: Subscriber -> listItemClicked(selectedItem) }
+            )
+        }
+    }
+
+    private fun listItemClicked(subscriber: Subscriber) {
+        Toast.makeText(this, "Name: ${subscriber.name}", Toast.LENGTH_SHORT).show()
     }
 
 }
