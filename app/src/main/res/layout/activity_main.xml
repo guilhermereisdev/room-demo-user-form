@@ -10,67 +10,95 @@
             type="com.guilhermereisdev.roomdemo.SubscriberViewModel" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/layout_text_fields"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/name_text"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="Nome"
-            android:inputType="text|textPersonName"
-            android:text="@={myViewModel.inputName}" />
-
-        <EditText
-            android:id="@+id/email_text"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="E-mail"
-            android:inputType="text|textEmailAddress"
-            android:text="@={myViewModel.inputEmail}" />
-
-        <LinearLayout
-            android:id="@+id/layout_buttons"
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/colorPrimary"
+            app:title="Cadastro de usuários"
+            app:titleTextColor="@color/primaryText" />
 
-            <Button
-                android:id="@+id/save_or_update_button"
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_text_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:ems="10"
+                    android:hint="Nome"
+                    android:inputType="text|textPersonName"
+                    android:text="@={myViewModel.inputName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:ems="10"
+                    android:hint="E-mail"
+                    android:inputType="text|textEmailAddress"
+                    android:text="@={myViewModel.inputEmail}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_buttons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:onClick="@{()->myViewModel.saveOrUpdate()}"
-                android:text="@={myViewModel.saveOrUpdateButtonText}" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/clear_all_or_delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:onClick="@{()->myViewModel.clearAllOrDelete()}"
-                android:text="@={myViewModel.clearAllOrDeleteButtonText}" />
+                <Button
+                    android:id="@+id/save_or_update_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->myViewModel.saveOrUpdate()}"
+                    android:text="@={myViewModel.saveOrUpdateButtonText}"
+                    android:textColor="@color/primaryText"
+                    tools:text="Salvar" />
 
+                <Button
+                    android:id="@+id/clear_all_or_delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->myViewModel.clearAllOrDelete()}"
+                    android:text="@={myViewModel.clearAllOrDeleteButtonText}"
+                    android:textColor="@color/primaryText"
+                    tools:text="Limpar tudo" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_subscriber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            tools:listitem="@layout/list_item" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
