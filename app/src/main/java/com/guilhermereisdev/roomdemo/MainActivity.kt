@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listItemClicked(subscriber: Subscriber) {
-        Toast.makeText(this, "Name: ${subscriber.name}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Nome: ${subscriber.name}", Toast.LENGTH_SHORT).show()
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 
 }
