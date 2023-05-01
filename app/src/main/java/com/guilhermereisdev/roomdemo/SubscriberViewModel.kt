@@ -1,5 +1,6 @@
 package com.guilhermereisdev.roomdemo
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,10 @@ class SubscriberViewModel(
     val saveOrUpdateButtonText = MutableLiveData<String>()
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
 
+    private val statusMessage = MutableLiveData<Event<String>>()
+    val message: LiveData<Event<String>>
+        get() = statusMessage
+
     init {
         saveOrUpdateButtonText.value = "Salvar"
         clearAllOrDeleteButtonText.value = "Excluir todos"
@@ -32,7 +37,12 @@ class SubscriberViewModel(
         if (isUpdateOrDelete) {
             subscriberToUpdateOrDelete.name = inputName.value.toString()
             subscriberToUpdateOrDelete.email = inputEmail.value.toString()
-            update(subscriberToUpdateOrDelete)
+            if (subscriberToUpdateOrDelete.name.isNotEmpty()
+                && subscriberToUpdateOrDelete.email.isNotEmpty()
+            )
+                update(subscriberToUpdateOrDelete)
+            else
+                statusMessage.value = Event("Os campos de nome e e-mail precisam estar preenchidos")
         } else {
             val name = inputName.value ?: ""
             val email = inputEmail.value ?: ""
@@ -40,7 +50,8 @@ class SubscriberViewModel(
                 insert(Subscriber(0, name, email))
                 inputName.value = ""
                 inputEmail.value = ""
-            }
+            } else
+                statusMessage.value = Event("Os campos de nome e e-mail precisam estar preenchidos")
         }
     }
 
@@ -50,6 +61,9 @@ class SubscriberViewModel(
 
     fun insert(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(subscriber)
+        withContext(Dispatchers.Main) {
+            statusMessage.value = Event("Usuário inserido com sucesso")
+        }
     }
 
     fun update(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
@@ -60,6 +74,7 @@ class SubscriberViewModel(
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Salvar"
             clearAllOrDeleteButtonText.value = "Excluir todos"
+            statusMessage.value = Event("Usuário atualizado com sucesso")
         }
     }
 
@@ -71,11 +86,15 @@ class SubscriberViewModel(
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Salvar"
             clearAllOrDeleteButtonText.value = "Excluir todos"
+            statusMessage.value = Event("Usuário excluído com sucesso")
         }
     }
 
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
+        withContext(Dispatchers.Main) {
+            statusMessage.value = Event("Todos os usuários excluídos com sucesso")
+        }
     }
 
     fun initUpdateAndDelete(subscriber: Subscriber) {
