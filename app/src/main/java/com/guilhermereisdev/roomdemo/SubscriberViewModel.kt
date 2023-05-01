@@ -59,41 +59,53 @@ class SubscriberViewModel(
         if (isUpdateOrDelete) delete(subscriberToUpdateOrDelete) else deleteAll()
     }
 
-    fun insert(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(subscriber)
+    private fun insert(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
+        val newRowId = repository.insert(subscriber)
         withContext(Dispatchers.Main) {
-            statusMessage.value = Event("Usuário inserido com sucesso")
+            if (newRowId > -1)
+                statusMessage.value = Event("Usuário inserido com sucesso. Id: $newRowId")
+            else
+                statusMessage.value = Event("Um erro ocorreu")
         }
     }
 
-    fun update(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
-        repository.update(subscriber)
+    private fun update(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
+        val numberOfRows = repository.update(subscriber)
         withContext(Dispatchers.Main) {
-            inputName.value = ""
-            inputEmail.value = ""
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "Salvar"
-            clearAllOrDeleteButtonText.value = "Excluir todos"
-            statusMessage.value = Event("Usuário atualizado com sucesso")
+            if (numberOfRows > 0) {
+                inputName.value = ""
+                inputEmail.value = ""
+                isUpdateOrDelete = false
+                saveOrUpdateButtonText.value = "Salvar"
+                clearAllOrDeleteButtonText.value = "Excluir todos"
+                statusMessage.value = Event("Usuário atualizado com sucesso")
+            } else
+                statusMessage.value = Event("Um erro ocorreu")
         }
     }
 
-    fun delete(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
-        repository.delete(subscriber)
+    private fun delete(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
+        val numberOfRowsDeleted = repository.delete(subscriber)
         withContext(Dispatchers.Main) {
-            inputName.value = ""
-            inputEmail.value = ""
-            isUpdateOrDelete = false
-            saveOrUpdateButtonText.value = "Salvar"
-            clearAllOrDeleteButtonText.value = "Excluir todos"
-            statusMessage.value = Event("Usuário excluído com sucesso")
+            if (numberOfRowsDeleted > 0) {
+                inputName.value = ""
+                inputEmail.value = ""
+                isUpdateOrDelete = false
+                saveOrUpdateButtonText.value = "Salvar"
+                clearAllOrDeleteButtonText.value = "Excluir todos"
+                statusMessage.value = Event("Usuário excluído com sucesso")
+            } else
+                statusMessage.value = Event("Um erro ocorreu")
         }
     }
 
-    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteAll()
+    private fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+        val numberOfRowsDeleted = repository.deleteAll()
         withContext(Dispatchers.Main) {
-            statusMessage.value = Event("Todos os usuários excluídos com sucesso")
+            if (numberOfRowsDeleted > 0)
+                statusMessage.value = Event("$numberOfRowsDeleted usuários excluídos com sucesso")
+            else
+                statusMessage.value = Event("Um erro ocorreu")
         }
     }
 
