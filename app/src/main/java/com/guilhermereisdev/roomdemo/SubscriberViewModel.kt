@@ -1,5 +1,6 @@
 package com.guilhermereisdev.roomdemo
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,21 +38,26 @@ class SubscriberViewModel(
         if (isUpdateOrDelete) {
             subscriberToUpdateOrDelete.name = inputName.value.toString()
             subscriberToUpdateOrDelete.email = inputEmail.value.toString()
-            if (subscriberToUpdateOrDelete.name.isNotEmpty()
-                && subscriberToUpdateOrDelete.email.isNotEmpty()
+            if (subscriberToUpdateOrDelete.name.isEmpty()
+                && subscriberToUpdateOrDelete.email.isEmpty()
             )
-                update(subscriberToUpdateOrDelete)
-            else
                 statusMessage.value = Event("Os campos de nome e e-mail precisam estar preenchidos")
+            else if (!Patterns.EMAIL_ADDRESS.matcher(subscriberToUpdateOrDelete.email).matches())
+                statusMessage.value = Event("Insira um e-mail válido")
+            else
+                update(subscriberToUpdateOrDelete)
         } else {
             val name = inputName.value ?: ""
             val email = inputEmail.value ?: ""
-            if (name.isNotEmpty() && email.isNotEmpty()) {
+            if (name.isEmpty() && email.isEmpty()) {
+                statusMessage.value = Event("Os campos de nome e e-mail precisam estar preenchidos")
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                statusMessage.value = Event("Insira um e-mail válido")
+            else {
                 insert(Subscriber(0, name, email))
                 inputName.value = ""
                 inputEmail.value = ""
-            } else
-                statusMessage.value = Event("Os campos de nome e e-mail precisam estar preenchidos")
+            }
         }
     }
 
