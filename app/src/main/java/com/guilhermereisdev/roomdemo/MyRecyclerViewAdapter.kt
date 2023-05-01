@@ -8,9 +8,11 @@ import com.guilhermereisdev.roomdemo.databinding.ListItemBinding
 import com.guilhermereisdev.roomdemo.db.Subscriber
 
 class MyRecyclerViewAdapter(
-    private val subscribersList: List<Subscriber>,
     private val clickListener: (Subscriber) -> Unit
 ) : RecyclerView.Adapter<MyViewHolder>() {
+
+    private val subscribersList = ArrayList<Subscriber>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ListItemBinding =
@@ -22,6 +24,11 @@ class MyRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(subscribersList[position], clickListener)
+    }
+
+    fun setList(subscribers: List<Subscriber>) {
+        subscribersList.clear()
+        subscribersList.addAll(subscribers)
     }
 }
 
