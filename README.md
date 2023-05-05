@@ -15,4 +15,6 @@ Autor: Guilherme Reis - [LinkedIn](https://www.linkedin.com/in/guilhermereisdev/
 
 ### Telas
 
+_Clique na imagem para ver em tela cheia_
+
 <img src="screenshots/01.png" width="30%"> <img src="screenshots/02.png" width="30%"> <img src="screenshots/03.png" width="30%"> <img src="screenshots/04.png" width="30%"> <img src="screenshots/05.png" width="30%">
