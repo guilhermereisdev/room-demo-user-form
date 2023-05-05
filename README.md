@@ -2,6 +2,8 @@
 
 App que gerencia um cadastro de usuários.
 
+Autor: Guilherme Reis - [LinkedIn](https://www.linkedin.com/in/guilhermereisdev/)
+
 ### Recursos do app
 - Cria, altera, deleta e exibe usuários cadastrados com nome e e-mail.
 
@@ -13,4 +15,9 @@ App que gerencia um cadastro de usuários.
 
 ------
 
-Autor: Guilherme Reis - [LinkedIn](https://www.linkedin.com/in/guilhermereisdev/)
+### Telas
+
+<img src="screenshots/01.png" width="30%">
+<img src="screenshots/02.png" width="30%">
+<img src="screenshots/03.png" width="30%">
+<img src="screenshots/04.png" width="30%">
