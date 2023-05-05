@@ -1,6 +1,6 @@
 # room-demo-user-form
 
-App que gerencia um cadastro de usuários.
+Um cadastro de usuários que salva os dados localmente.
 
 Autor: Guilherme Reis - [LinkedIn](https://www.linkedin.com/in/guilhermereisdev/)
 
